@@ -2,7 +2,7 @@
 
 A Django REST API for managing and booking fitness classes.
 
-#### Postman collection for this project is avaialable [here](https://www.postman.com/interstellar-desert-4342-1/workspace/fitness-class-booking/request/7249639-308d35c6-a782-40f6-a074-21e3b11d7994?action=share&creator=7249639&ctx=documentation)
+#### Postman collection for this project is avaialable [here](https://www.postman.com/interstellar-desert-4342-1/workspace/fitness-class-booking/collection/7249639-b5fc3b05-b441-4590-bb85-b89137f3bc87?action=share&creator=7249639)
 
 ---
 
