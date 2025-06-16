@@ -1,20 +1,30 @@
 from rest_framework import serializers
 from .models import FitnessClass, Booking
 from django.db import transaction
+from django.utils.timezone import localtime
 
 
 class FitnessClassListSerializer(serializers.ModelSerializer):
+    start_time = serializers.SerializerMethodField()
+
     class Meta:
         model = FitnessClass
         fields = ['id', 'name', 'instructor', 'start_time', 'available_slots']
 
+    def get_start_time(self, obj):
+        return localtime(obj.start_time).strftime("%Y-%m-%d %H:%M:%S")
+
 
 class BookingListSerializer(serializers.ModelSerializer):
-    fitness_class = serializers.PrimaryKeyRelatedField(queryset=FitnessClass.objects.all())
+    fitness_class = FitnessClassListSerializer()
+    created_at = serializers.SerializerMethodField()
 
     class Meta:
         model = Booking
         fields = ['id', 'fitness_class', 'client_name', 'client_email', 'created_at']
+
+    def get_created_at(self, obj):
+        return localtime(obj.created_at).strftime("%Y-%m-%d %H:%M:%S")
 
 
 class CreateBookingSerializer(serializers.ModelSerializer):

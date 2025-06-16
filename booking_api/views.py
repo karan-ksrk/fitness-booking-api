@@ -3,22 +3,17 @@ from .models import FitnessClass, Booking
 from rest_framework.views import APIView
 from django.utils import timezone
 from .serializers import FitnessClassListSerializer, CreateBookingSerializer, BookingListSerializer
-from rest_framework.response import Response 
+from rest_framework.response import Response
 from rest_framework import serializers, status
 
 
 class FitnessClassListView(APIView):
     def get(self, request):
-        tz_str = request.query_params.get('tz', 'Asia/Kolkata')
         classes = FitnessClass.objects.filter(start_time__gte=timezone.now()).order_by('start_time')
 
-        data = []
-        for cls in classes:
-            serialized = FitnessClassListSerializer(cls).data
-            serialized['start_time'] = cls.get_time_in_timezone(tz_str).isoformat()
-            data.append(serialized)
+        serialized = FitnessClassListSerializer(classes, many=True)
 
-        return Response(data)
+        return Response(serialized.data, status=status.HTTP_200_OK)
 
 
 class BookingCreateView(APIView):
@@ -35,7 +30,7 @@ class BookingCreateView(APIView):
 
         if serializer.is_valid():
             try:
-                booking = serializer.save()
+                serializer.save()
                 return Response({
                     "message": "Booking created successfully",
                     "booking": serializer.data

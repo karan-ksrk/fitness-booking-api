@@ -1,5 +1,6 @@
 from django.db import models
 from pytz import timezone
+from django.utils.timezone import localtime
 
 
 class FitnessClass(models.Model):
@@ -7,10 +8,6 @@ class FitnessClass(models.Model):
     instructor = models.CharField(max_length=100)
     start_time = models.DateTimeField()
     available_slots = models.PositiveIntegerField()
-
-    # Function to get the start time in a specific timezone
-    def get_time_in_timezone(self, tz_str):
-        return self.start_time.astimezone(timezone(tz_str))
 
     def __str__(self):
         return f"{self.name} by {self.instructor} on {self.start_time}"

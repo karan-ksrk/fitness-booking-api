@@ -52,8 +52,8 @@ python manage.py runserver
 
 ### 1. List Available Classes
 
-**GET** `/classes/?tz=Asia/Kolkata`  
-Lists upcoming classes with optional timezone adjustment.
+**GET** `/classes/`  
+Lists upcoming classes
 
 ### 2. Book a Class
 
@@ -85,10 +85,41 @@ python manage.py add_sample_data
 
 ## ✅ Testing
 
-To run all unit tests:
+To run all api tests:
 
 ```bash
 python manage.py test
 ```
+
+## Booking Test Cases Coverage
+
+### 1. `test_get_classes`
+
+- Verifies retrieval of available fitness classes.
+- Checks that the returned class list contains the correct names ("Yoga", "Zumba", "HIIT").
+
+### 2. `test_get_classes_with_timezone`
+
+- Ensures class start times are correctly converted to different time zones.
+
+### 3. `test_booking_success`
+
+- Validates successful booking creation and slot decrement.
+
+### 4. `test_booking_failure_missing_fields`
+
+- Ensures booking fails when required fields (like `class_id`) are missing.
+
+### 5. `test_booking_failure_existing_booking`
+
+- Verifies booking fails if a client already has a reservation for the same class.
+
+### 6. `test_booking_failure_no_available_slots`
+
+- Ensures booking fails when there are no available slots in a class.
+
+### 7. `test_booking_failure_class_not_found`
+
+- Verifies booking fails when an invalid class ID is provided.
 
 ---
