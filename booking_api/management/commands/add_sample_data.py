@@ -7,17 +7,17 @@ from django.utils.timezone import make_aware
 SAMPLE_CLASSES = {
     "Yoga": {
         "instructor": "Alice",
-        "start_time": make_aware(datetime(2025, 6, 15, 8, 0)),
+        "start_time": make_aware(datetime(2026, 6, 15, 8, 0)),
         "available_slots": 5
     },
     "Zumba": {
         "instructor": "Bob",
-        "start_time": make_aware(datetime(2025, 6, 15, 10, 0)),
+        "start_time": make_aware(datetime(2026, 6, 15, 10, 0)),
         "available_slots": 8
     },
     "HIIT": {
         "instructor": "Charlie",
-        "start_time": make_aware(datetime(2025, 6, 16, 7, 0)),
+        "start_time": make_aware(datetime(2026, 6, 16, 7, 0)),
         "available_slots": 6
     }
 }
@@ -40,10 +40,18 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         for name, data in SAMPLE_CLASSES.items():
-            FitnessClass.objects.create(name=name, **data)
+            # create if not exists
+            _, is_created = FitnessClass.objects.get_or_create(name=name, defaults=data)
+            if is_created:
+                self.stdout.write(self.style.SUCCESS(f'Sample class {name} added successfully'))
+            else:
+                self.stdout.write(self.style.SUCCESS(f'Sample class {name} already exists'))
 
         for name, data in SAMPLE_BOOKINGs.items():
             fitness_class = FitnessClass.objects.get(name=name)
-            Booking.objects.create(fitness_class=fitness_class, **data)
-
-        self.stdout.write(self.style.SUCCESS('Sample data added successfully'))
+            # create if not exists
+            _, is_created = Booking.objects.get_or_create(fitness_class=fitness_class, **data)
+            if is_created:
+                self.stdout.write(self.style.SUCCESS(f'Sample booking for class {name} added successfully'))
+            else:
+                self.stdout.write(self.style.SUCCESS(f'Sample booking for class {name} already exists'))
