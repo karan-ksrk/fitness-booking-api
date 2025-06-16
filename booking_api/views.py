@@ -3,7 +3,7 @@ from .models import FitnessClass, Booking
 from rest_framework.views import APIView
 from django.utils import timezone
 from .serializers import FitnessClassListSerializer, CreateBookingSerializer, BookingListSerializer
-from rest_framework.response import Response
+from rest_framework.response import Response 
 from rest_framework import serializers, status
 
 

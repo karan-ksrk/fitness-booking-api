@@ -1,30 +1,6 @@
 from rest_framework import serializers
 from .models import FitnessClass, Booking
-from django.utils import timezone
 from django.db import transaction
-
-
-class FitnessClassSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = FitnessClass
-        fields = ['id', 'name', 'instructor', 'start_time', 'available_slots']
-
-    # validate available_slots
-    def validate_available_slots(self, value):
-        """
-        Validate that available slots is greater than 0
-        """
-        if value <= 0:
-            raise serializers.ValidationError("Available slots must be greater than 0")
-        return value
-
-    def validate_start_time(self, value):
-        """
-        Validate that start time is in the future
-        """
-        if value < timezone.now():
-            raise serializers.ValidationError("Start time must be in the future")
-        return value
 
 
 class FitnessClassListSerializer(serializers.ModelSerializer):
