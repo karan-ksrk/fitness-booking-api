@@ -88,7 +88,7 @@ python manage.py add_sample_data
 To run all api tests:
 
 ```bash
-python manage.py test
+python manage.py test -v2
 ```
 
 ## Booking Test Cases Coverage
